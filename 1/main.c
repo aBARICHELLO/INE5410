@@ -18,9 +18,10 @@ int main(int argc, char* argv[]) {
     }
 
     float v1_average = average(v1, vector_size);
+    float v1_variance = variance(v1, vector_size);
     printf("%s %f", "\nVector average:", v1_average);
-    printf("\n%s %f", "Vector standard deviation:", standard_deviation(v1_average));
-
+    printf("%s %f", "\nVector variance:", v1_variance);
+    printf("\n%s %f", "Vector standard deviation:", standard_deviation(v1_variance));
     return 0;
 }
 
@@ -32,6 +33,15 @@ float average(unsigned int* v1, unsigned int vector_size) {
     return average / vector_size;
 }
 
-float standard_deviation(float average) {
-    return sqrt((float)average);
+float variance(unsigned int* v1, unsigned int vector_size) {
+    float avrg = average(v1, vector_size);
+    float variance = 0;
+    for (unsigned int i = 0; i < vector_size; ++i) {
+        variance += pow(v1[i] - avrg, 2);
+    }
+    return variance;
+}
+
+float standard_deviation(float variance) {
+    return sqrt((float)variance);
 }
