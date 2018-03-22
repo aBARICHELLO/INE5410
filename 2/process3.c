@@ -34,7 +34,8 @@ int main () {
         printf("ENDED MAIN PROCESS\n");
     } else {
         printf(" CHILD PROCESS %d ENDED\n", getpid());
-        sleep(1);
+        sleep(2);
+        execl("/bin/date", "date", "+%H:%M:%S:%N", (char*)0);
     }
     return 0;
 }
