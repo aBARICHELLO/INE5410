@@ -1,20 +1,10 @@
+Atividade Prática - Mutex
 Exercício 1
 
-Escreva um programa que receba um número como argumento na linha de comando (use argc e argv da função main). O programa deve ter uma variável global do tipo inteiro chamada "contador_global", que deve ser iniciada com zero. O programa deve criar o número de threads especificado no argumento. A função executada nas threads deve conter um laço que incremente o contador_global. O laço deve ser executado num_threads * 1000 vezes por cada thread, onde num_threads é o número de threads criadas. Este número deve ser passado como parâmetro para a thread (veja os argumentos da função pthread_create). O programa deve esperar todas as threads terminarem e então imprimir o valor do contador_global. Execute este programa e vá aumentando o número de threads a cada execução (ex.: 2, 5, 10, 30, 50, 100, ...). Observe o que acontece com o valor do contador_global conforme o número de threads aumenta.
-
+Utilize um Mutex para proteger a região crítica do código do Exercício 1 da atividade prática anterior, em que um contador era acessado concorrentemente por várias threads, resultando em um valor inconsistente. O Mutex deve ser utilizado de modo a controlar a concorrência entre as threads, fazendo com que o programa apresente o resultado esperado.
 Exercício 2
 
-O programa sequencial “soma_vet.c” (disponível abaixo) aloca três vetores denominados “a”, “b” e “c” de tamanho “tam_vet” (fornecido pela linha de comando). Então, ele realiza a operação “c[i] = a[i] + b[i]” para todos os elementos “i” dos vetores. Desenvolva uma solução multithread para esse problema. Cada thread deverá ser responsável por realizar uma parte da computação.
-
+Altere o código do programa que faz a mutiplicação de matrizes, de modo que várias threads possam executar os passos necessários para calcular o resultado da multiplicação de forma concorrente. Utilize Mutex para controlar a concorrência e proteger a região crítica do código.
 Exercício 3
 
-O programa sequencial “prod_escalar.c” (disponível abaixo) aloca dois vetores denominados “a” e “b” de tamanho “tam_vet” (fornecido pela linha de comando). Então, ele realiza o produto escalar dos dois vetores, ou seja, ele computa o somatório das multiplicações de “a[i]” por “b[i]” para todos os elementos “i” dos vetores. Desenvolva uma solução multithread para esse problema. Cada thread deverá ser responsável por realizar uma parte da computação.
-Dicas
-
-     Você vai precisar das seguintes bibliotecas:
-
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <stdio.h>
-#include <pthread.h>
+O programa stack disponível no Moodle recebe pela linha de comando o número de threads a serem criadas (N). Então, ele cria N threads que serão responsáveis por fazer, cada uma, N * MAX_PUSH inserções de maneira concorrente em uma estrutura de dados compartilhada do tipo pilha. Após o término dessas threads, o programa cria novamente N threads que serão responsáveis por remover todos os elementos da pilha de maneira concorrente. Faça as modificações necessárias na implementação da pilha para evitar condições de corrida.
