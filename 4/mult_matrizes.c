@@ -45,7 +45,6 @@ void* multiplicar_thread(void *arg) {
         for (i = 0; i < tamanho_matriz; i++) {
             resultado[x][y] += matriz1[x][i] * matriz2[i][y];
         }
-
     }
 }
 
