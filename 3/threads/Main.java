@@ -8,12 +8,7 @@ public class Main {
         String path = args[0];
         String targetName = args[1];
 
-        File rootPath = new File(path);
-        if (rootPath.exists()) {
-            System.out.println("lol");
-        }
-
-        FileThread thread = new FileThread();
-        thread.start();
+        FileThread ft = new FileThread(path, targetName);
+        ft.start();
     }
 }
