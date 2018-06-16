@@ -8,20 +8,25 @@ import java.util.Queue;
 
 
 class Main {
+    static String URL = "http://cco.inf.ufsc.br/";
+    static int MAX_DEPTH = 200;
+
     public static void main(String[] args) {
         Crawler crawler = new Crawler();
-        Queue<String> results = crawler.extractLinksFromURL("http://cco.inf.ufsc.br/");
+        String content = crawler.downloadURL(URL);
+        Queue<String> results = crawler.extractLinksFromURL(content);
+
         for (String r : results) {
             System.out.println(r);
         }
-        System.out.println("lol");
+        System.out.println("--- Ended ---");
     }
 }
 
 class Crawler {
-    public String downloadURL(String url) {
+    public String downloadURL(String URL) {
         try {
-            String document = Jsoup.connect(url).get().html();
+            String document = Jsoup.connect(URL).get().html();
             return document;
         } catch (Throwable e) {
             e.printStackTrace();
@@ -29,14 +34,14 @@ class Crawler {
         }
     }
 
-    public Queue<String> extractLinksFromURL(String url) {
+    public Queue<String> extractLinksFromURL(String content) {
         Queue<String> queue = new LinkedList<String>();
-        Document doc = Jsoup.parse(url);
-        Elements links = doc.select("a[href]");
+        Document doc = Jsoup.parse(content);
+        Elements links = doc.select("a");
         for (Element link : links) {
-            String suburl = link.attr("abs:href");
-            if (suburl.length() > 0 && suburl.startsWith("http")) {
-                queue.add(url);
+            String subURL = link.attr("abs:href");
+            if (subURL.length() > 0 && subURL.startsWith("http")) {
+                queue.add(subURL);
             }
         }
         return queue;
