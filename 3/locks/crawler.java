@@ -7,24 +7,49 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 
+// VISITOR = dequeue from linkQueue, download it and add to htmlQueue
+// EXTRACTOR = dequeue htmlQueue, extract and save links, add links to linkQueue
+
 class Main {
     static String URL = "http://cco.inf.ufsc.br/";
     static int MAX_DEPTH = 200;
+    static int MAX_VISITOR_THREADS = 20;
+    static int MAX_EXTRACTOR_THREADS = 2;
 
     public static void main(String[] args) {
-        Crawler crawler = new Crawler();
-        String content = crawler.downloadURL(URL);
-        Queue<String> results = crawler.extractLinksFromURL(content);
+        Queue<String> linkQueue = new LinkedList<String>();
+        Queue<String> htmlQueue = new LinkedList<String>();
+        linkQueue.add(URL);
 
-        for (String r : results) {
-            System.out.println(r);
+        VisitorThread[] visitorThreads = new VisitorThread[MAX_VISITOR_THREADS];
+        ExtractorThread[] extractorThreads = new ExtractorThread[MAX_EXTRACTOR_THREADS];
+
+        for (int i = 0; i < MAX_VISITOR_THREADS; i++) {
+            visitorThreads[i] = new VisitorThread();
+            visitorThreads[i].start();
         }
+        for (int i = 0; i < MAX_EXTRACTOR_THREADS; i++) {
+            extractorThreads[i] = new ExtractorThread();
+            extractorThreads[i].start();
+        }
+
+        try {
+            for (int i = 0; i < MAX_VISITOR_THREADS; i++) {
+                visitorThreads[i].join();
+            }
+            for (int i = 0; i < MAX_EXTRACTOR_THREADS; i++) {
+                extractorThreads[i].join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("--- Ended ---");
     }
 }
 
 class Crawler {
-    public String downloadURL(String URL) {
+    public String downloadHTML(String URL) {
         try {
             String document = Jsoup.connect(URL).get().html();
             return document;
@@ -46,4 +71,12 @@ class Crawler {
         }
         return queue;
     }
+}
+
+class VisitorThread extends Thread {
+
+}
+
+class ExtractorThread extends Thread {
+
 }
